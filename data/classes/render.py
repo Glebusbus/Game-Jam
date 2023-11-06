@@ -1,13 +1,17 @@
 from numba import njit
 import numpy as np
 import pygame as pg
+from data.classes.world_maker import give_height_map, color_map
 import math
 
 height_map_img = pg.image.load('assets/imgs/maps/img_height_map.png')
 height_map_img = pg.surfarray.array3d(height_map_img)
 map_img = pg.image.load('assets/imgs/maps/img_map.png')
 map_img = pg.surfarray.array3d(map_img)
-
+"""
+height_map_img = give_height_map(4096)
+map_img = color_map(height_map_img)
+"""
 map_height = len(height_map_img[0])
 map_widht = len(height_map_img)
 
@@ -41,7 +45,7 @@ def raycasting(screen, player_pos, player_angle, player_height, player_pitch,
                     y %= map_height
                 else:
                     y = map_height - ((-y) % map_height) - 1
-            height_on_screen = int(((player_height - height_map_img[x, y][0]) /
+            height_on_screen = int(((player_height - height_map_img[x, y, 0]) /
                                     depth / math.cos(player_angle - ray_angle) * scale_height) +5 * math.cosh(
                 (depth) / 500) + player_pitch)
             if not first_contact:
